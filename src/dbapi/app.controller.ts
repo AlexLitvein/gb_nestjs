@@ -8,34 +8,34 @@ import {
   Query,
 } from '@nestjs/common';
 import { AppService } from './app.service';
-import { Posts } from './database/entities/post.entity';
+import { News } from './database/entities/news.entity';
 
-@Controller('posts')
+@Controller('news')
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get('get-all')
-  async getPosts(): Promise<Posts[]> {
-    return this.appService.getPosts();
+  async getNewsAll(): Promise<News[]> {
+    return this.appService.getNewsAll();
   }
 
   @Get('get-one')
-  async getPost(@Query() query: { id: number }): Promise<Posts | null> {
-    return this.appService.getPost(query.id);
+  async getNewsOne(@Query() query: { id: number }): Promise<News | null> {
+    return this.appService.getNewsOne(query.id);
   }
 
   @Put('create')
-  async createPost(@Body() data: Posts): Promise<Posts> {
-    return this.appService.createPost(data);
+  async createNews(@Body() data: News): Promise<News> {
+    return this.appService.createNews(data);
   }
 
   @Delete('delete')
-  async deletePost(@Body() body: { id: number }): Promise<Posts> {
-    return this.appService.deletePost(body.id);
+  async deleteNewsOne(@Body() body: { id: number }): Promise<News> {
+    return this.appService.deleteNewsOne(body.id);
   }
 
   @Post('update')
-  async updatePost(@Body() data: Posts): Promise<Posts> {
-    return this.appService.updatePost(data);
+  async updateNews(@Body() data: News): Promise<News> {
+    return this.appService.updateNews(data);
   }
 }

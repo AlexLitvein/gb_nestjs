@@ -1,51 +1,51 @@
 import { Injectable } from '@nestjs/common';
-import { Posts } from './database/entities/post.entity';
+import { News } from './database/entities/news.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class AppService {
   constructor(
-    @InjectRepository(Posts)
-    private readonly postsRepository: Repository<Posts>,
+    @InjectRepository(News)
+    private readonly newsRepository: Repository<News>,
   ) {}
 
-  async getPosts(): Promise<Posts[]> {
-    const posts = this.postsRepository.find();
+  async getNewsAll(): Promise<News[]> {
+    const posts = this.newsRepository.find();
     return posts;
   }
 
-  async getPost(id: number): Promise<Posts | null> {
-    return this.postsRepository.findOne({
+  async getNewsOne(id: number): Promise<News | null> {
+    return this.newsRepository.findOne({
       where: {
         id,
       },
     });
   }
 
-  async createPost(data: Posts): Promise<Posts> {
-    return this.postsRepository.save(data);
+  async createNews(data: News): Promise<News> {
+    return this.newsRepository.save(data);
   }
 
-  async updatePost(data: Posts): Promise<Posts> {
-    const existingPost = await this.postsRepository.findOne({
+  async updateNews(data: News): Promise<News> {
+    const existingPost = await this.newsRepository.findOne({
       where: {
         id: data.id,
       },
     });
-    return this.postsRepository.save({
+    return this.newsRepository.save({
       ...existingPost,
       ...data,
     });
   }
 
-  async deletePost(id: number): Promise<Posts> {
-    const post = await this.postsRepository.findOne({
+  async deleteNewsOne(id: number): Promise<News> {
+    const post = await this.newsRepository.findOne({
       where: {
         id,
       },
     });
-    if (post) return this.postsRepository.remove(post);
+    if (post) return this.newsRepository.remove(post);
     else throw new Error('Post not found');
   }
 }

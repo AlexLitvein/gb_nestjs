@@ -3,10 +3,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DatabaseModule } from './database/database.module';
-import { Posts } from './database/entities/post.entity';
+import { News } from './database/entities/news.entity';
 
 @Module({
-  imports: [DatabaseModule, TypeOrmModule.forFeature([Posts])],
+  imports: [DatabaseModule, TypeOrmModule.forFeature([News])],
   controllers: [AppController],
   providers: [AppService],
 })
