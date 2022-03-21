@@ -15,7 +15,7 @@ export class AppService {
     return posts;
   }
 
-  async getPost(id: number): Promise<Posts | undefined> {
+  async getPost(id: number): Promise<Posts | null> {
     return this.postsRepository.findOne({
       where: {
         id,

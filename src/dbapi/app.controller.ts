@@ -20,7 +20,7 @@ export class AppController {
   }
 
   @Get('get-one')
-  async getPost(@Query() query: { id: number }): Promise<Posts | undefined> {
+  async getPost(@Query() query: { id: number }): Promise<Posts | null> {
     return this.appService.getPost(query.id);
   }
 
