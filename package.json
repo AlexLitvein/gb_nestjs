@@ -6,7 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "start": "tsc-watch -p tsconfig.build.json --onSuccess \"node dist/src/api/main.js\"",
+    "start": "tsc-watch -p tsconfig.build.json --onSuccess \"node dist/src/dbapi/main.js\"",
     "start:api:dev": "tsc-watch -p tsconfig.build.json --onSuccess \"node dist/src/dbapi/main.js\"",
     "prebuild": "rimraf dist",
     "build": "rimraf dist && tsc && npm run copy-files",

@@ -15,10 +15,10 @@ export class News {
   name!: string;
 
   @CreateDateColumn()
-  createdAt!: Date;
+  createdat!: Date;
 
   @UpdateDateColumn()
-  updatedAt!: Date;
+  updatedat!: Date;
 
   @Column({ name: 'description', type: 'text' })
   description!: string;
