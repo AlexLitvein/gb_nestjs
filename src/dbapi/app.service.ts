@@ -27,6 +27,12 @@ export class AppService {
     return this.newsRepository.save(data);
   }
 
+  // async createNews(data: News): string {
+  //   let res = await this.newsRepository.save(data);
+  //   i
+  //   return
+  // }
+
   async updateNews(data: News): Promise<News> {
     const existingPost = await this.newsRepository.findOne({
       where: {

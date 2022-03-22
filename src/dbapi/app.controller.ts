@@ -1,4 +1,5 @@
 import {
+  Res,
   Body,
   Controller,
   Delete,
@@ -7,6 +8,7 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
+import { Response } from 'express';
 import { AppService } from './app.service';
 import { News } from './database/entities/news.entity';
 
@@ -24,9 +26,25 @@ export class AppController {
     return this.appService.getNewsOne(query.id);
   }
 
+  // @Put('create')
+  // async createNews(@Body() data: News, @Res() res: Response): Promise<News> {
+  //   return this.appService.createNews(data);
+  // }
+
   @Put('create')
-  async createNews(@Body() data: News): Promise<News> {
-    return this.appService.createNews(data);
+  createNews(@Body() data: News, @Res() res: Response): void {
+    // const msg = 'Successfully created';
+
+    this.appService
+      .createNews(data)
+      .then((res) => {})
+      .catch((e) => {
+        console.log(e);
+      });
+
+    //   console.log(error);
+
+    // return msg;
   }
 
   @Delete('delete')
