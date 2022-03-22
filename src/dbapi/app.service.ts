@@ -27,22 +27,23 @@ export class AppService {
     return this.newsRepository.save(data);
   }
 
-  // async createNews(data: News): string {
-  //   let res = await this.newsRepository.save(data);
-  //   i
-  //   return
-  // }
-
-  async updateNews(data: News): Promise<News> {
+  async updateNews(data: News): Promise<string> {
     const existingPost = await this.newsRepository.findOne({
       where: {
         id: data.id,
       },
     });
-    return this.newsRepository.save({
-      ...existingPost,
-      ...data,
-    });
+
+    if (existingPost) {
+      this.newsRepository.save({
+        ...existingPost,
+        ...data,
+      });
+    } else {
+      throw new Error('News not exist');
+    }
+
+    return 'Successfully updated';
   }
 
   async deleteNewsOne(id: number): Promise<News> {

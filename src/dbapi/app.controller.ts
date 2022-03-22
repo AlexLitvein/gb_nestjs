@@ -16,6 +16,33 @@ import { News } from './database/entities/news.entity';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
+  @Put('create')
+  async createNews(@Body() data: News, @Res() res: Response): Promise<void> {
+    let msg = '';
+    let status = 200;
+    try {
+      await this.appService.createNews(data);
+      msg = 'Successfully created';
+    } catch (e) {
+      msg = (<any>e).detail;
+      status = 500;
+    }
+    res.status(status).send(msg);
+  }
+
+  @Post('update')
+  async updateNews(@Body() data: News, @Res() res: Response): Promise<void> {
+    let msg = '';
+    let status = 200;
+    try {
+      msg = await this.appService.updateNews(data);
+    } catch (e) {
+      msg = (<any>e).message;
+      status = 500;
+    }
+    res.status(status).send(msg);
+  }
+
   @Get('get-all')
   async getNewsAll(): Promise<News[]> {
     return this.appService.getNewsAll();
@@ -26,34 +53,8 @@ export class AppController {
     return this.appService.getNewsOne(query.id);
   }
 
-  // @Put('create')
-  // async createNews(@Body() data: News, @Res() res: Response): Promise<News> {
-  //   return this.appService.createNews(data);
-  // }
-
-  @Put('create')
-  createNews(@Body() data: News, @Res() res: Response): void {
-    // const msg = 'Successfully created';
-
-    this.appService
-      .createNews(data)
-      .then((res) => {})
-      .catch((e) => {
-        console.log(e);
-      });
-
-    //   console.log(error);
-
-    // return msg;
-  }
-
   @Delete('delete')
   async deleteNewsOne(@Body() body: { id: number }): Promise<News> {
     return this.appService.deleteNewsOne(body.id);
-  }
-
-  @Post('update')
-  async updateNews(@Body() data: News): Promise<News> {
-    return this.appService.updateNews(data);
   }
 }
