@@ -6,8 +6,8 @@ import {
   CreateDateColumn,
 } from 'typeorm';
 
-@Entity('posts')
-export class Posts {
+@Entity('news')
+export class News {
   @PrimaryGeneratedColumn({ type: 'int' })
   id!: number;
 
@@ -15,10 +15,10 @@ export class Posts {
   name!: string;
 
   @CreateDateColumn()
-  createdAt!: Date;
+  createdat!: Date;
 
   @UpdateDateColumn()
-  updatedAt!: Date;
+  updatedat!: Date;
 
   @Column({ name: 'description', type: 'text' })
   description!: string;
