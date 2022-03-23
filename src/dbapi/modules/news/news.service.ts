@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { News } from './database/entities/news.entity';
+import { News } from '../../database/entities/news.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
-export class AppService {
+export class NewsService {
   constructor(
     @InjectRepository(News)
     private readonly newsRepository: Repository<News>,
