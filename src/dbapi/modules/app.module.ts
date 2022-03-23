@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 // import { TypeOrmModule } from '@nestjs/typeorm';
-import { CommentsController } from '../controllers/comments/comments.controller';
-import { NewsController } from '../controllers/news/news.controller';
+import { CommentsController } from '../controllers/comments.controller';
+import { NewsController } from '../controllers/news.controller';
 // import { CalcController } from '../calc/calc.controller';
 // import { CalcModule } from '../calc/calc.module';
 // import { CalcService } from '../calc/calc.service';

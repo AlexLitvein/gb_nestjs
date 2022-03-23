@@ -9,8 +9,8 @@ import {
   Query,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { NewsService } from '../../modules/news/news.service';
-import { News } from '../../database/entities/news.entity';
+import { NewsService } from '../modules/news/news.service';
+import { News } from '../database/entities/news.entity';
 
 @Controller('news')
 export class NewsController {
