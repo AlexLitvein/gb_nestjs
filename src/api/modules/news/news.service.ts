@@ -49,11 +49,13 @@ export class NewsService {
   }
 
   async updateNews(data: News): Promise<string> {
-    const existingPost = news[data.id];
+    // const existingPost = news[data.id - 1];
+    const n = news.findIndex((el) => el.id === data.id);
 
-    if (existingPost) {
-      news[data.id] = {
-        ...existingPost,
+    if (n >= 0) {
+      // if (existingPost) {
+      news[n] = {
+        ...news[n],
         ...data,
       };
     } else {
@@ -64,8 +66,8 @@ export class NewsService {
   }
 
   async deleteNews(id: number): Promise<News[]> {
-    const n = news[id];
-    if (n) return news.splice(id, 1);
+    const n = news.findIndex((el) => el.id === id);
+    if (n >= 0) return news.splice(n, 1);
     else throw new Error('News not found');
   }
 }

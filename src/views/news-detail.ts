@@ -1,6 +1,6 @@
 import { News } from '../api/dto/news.dto';
 
-export const newsDetail = (news: News) => {
+export const newsDetail = (news: News): string => {
   let html = `<div class="row">
   <div class="card">
     <div class="card-body">

@@ -5,7 +5,6 @@ export const DecrementId = createParamDecorator(
     const request = ctx.switchToHttp().getRequest();
     data.forEach((element) => {
       const value = request.query[element];
-      console.log(data);
       request.query[element] = value - 1;
     });
     return data;

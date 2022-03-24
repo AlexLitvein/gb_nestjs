@@ -1,6 +1,6 @@
 import { News } from '../api/dto/news.dto';
 
-export const newsTemplate = (news: News[]) => {
+export const newsTemplate = (news: News[]): string => {
   if (news.length === 0) {
     return emptyNews();
   }

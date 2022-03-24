@@ -9,11 +9,12 @@ import {
   Query,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { newsTemplate } from '../../views/news.view';
+import { newsTemplate } from '../../views/news';
 import { DecrementId } from '../../utils/decrement-id.decorator';
 import { News } from '../dto/news.dto';
 import { NewsService } from '../modules/news/news.service';
-import { newsDetail } from '../../views/news-detail.view';
+import { newsDetail } from '../../views/news-detail';
+import { drawDocument } from '../../views/dcument';
 
 @Controller('news')
 export class NewsController {
@@ -48,29 +49,8 @@ export class NewsController {
 
   @Get('/')
   async getNewsAll(): Promise<string> {
-    // Promise<News[]
     const news = await this.newsService.getNewsAll();
-    // return this.newsService.getNewsAll();
-    return `
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <style>
-        .card {
-            border: 1px solid palevioletred;
-            margin: 2px;
-        }
-    </style>
-        <title>Document</title>
-    </head>
-    <body>
-    ${newsTemplate(news)}
-    </body>
-    </html>
-    `;
+    return drawDocument(newsTemplate(news));
   }
 
   @Get('get-one')
@@ -78,32 +58,12 @@ export class NewsController {
     @Query() @DecrementId(['id']) query: { id: number },
   ): Promise<string> {
     const news = await this.newsService.getNews(query.id);
-    return `
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <style>
-        .card {
-            border: 1px solid palevioletred;
-            margin: 2px;
-        }
-    </style>
-        <title>Document</title>
-    </head>
-    <body>
-    ${newsDetail(news)}
-    </body>
-    </html>
-    `;
+    drawDocument;
+    return drawDocument(newsDetail(news));
   }
 
   @Delete('delete')
-  async deleteNewsOne(
-    @Body() @DecrementId(['id']) body: { id: number },
-  ): Promise<News[]> {
+  async deleteNewsOne(@Body() body: { id: number }): Promise<News[]> {
     return this.newsService.deleteNews(body.id);
   }
 }
