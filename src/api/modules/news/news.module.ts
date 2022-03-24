@@ -1,17 +1,11 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-// import { CalcController } from '../calc/calc.controller';
-// import { CalcModule } from '../calc/calc.module';
-// import { CalcService } from '../calc/calc.service';
 import { NewsController } from '../../controllers/news.controller';
 import { NewsService } from './news.service';
-import { DatabaseModule } from '../../database/database.module';
-import { News } from '../../database/entities/news.entity';
 
 @Module({
-  imports: [DatabaseModule, TypeOrmModule.forFeature([News])], // ,
+  imports: [],
   controllers: [NewsController],
-  providers: [NewsService], //
+  providers: [Array, NewsService],
   exports: [NewsService],
 })
 export class NewsModule {}
