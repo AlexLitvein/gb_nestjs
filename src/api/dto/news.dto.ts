@@ -1,4 +1,6 @@
-export class Posts {
+import { Comment } from './comment.dto';
+
+export class News {
   id!: number;
 
   name!: string;
@@ -10,4 +12,6 @@ export class Posts {
   description!: string;
 
   text!: string;
+
+  comments!: Comment[];
 }
