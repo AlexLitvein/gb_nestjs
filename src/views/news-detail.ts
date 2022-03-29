@@ -1,6 +1,6 @@
-import { News } from '../api/dto/news.dto';
+import { NewsDTO } from '../api/dto/news.dto';
 
-export const newsDetail = (news: News): string => {
+export const newsDetail = (news: NewsDTO): string => {
   let html = `<div class="row">
   <div class="card">
     <div class="card-body">
@@ -11,11 +11,14 @@ export const newsDetail = (news: News): string => {
         <div class="card-subtitle mb-2 text-muted">
             Дата создания: ${news.createdAt}
         </div>
+        <img src='http://localhost:3000/${news?.cover}' class="card-img-top"
+style="height: 200px; object-fit: cover;" alt=''>
+
         <p class="card-text">${news.text}</p>
     </div>
   `;
 
-  if (news.comments.length === 0) {
+  if (news.comments?.length === 0) {
     html += emptyComments();
   } else {
     for (const comment of news.comments) {

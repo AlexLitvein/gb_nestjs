@@ -8,8 +8,8 @@ import {
   Query,
 } from '@nestjs/common';
 import { DecrementId } from '../../utils/decrement-id.decorator';
-import { Comment } from '../dto/comment.dto';
-import { News } from '../dto/news.dto';
+import { CommentDTO } from '../dto/comment.dto';
+import { NewsDTO } from '../dto/news.dto';
 import { CommentsService } from '../modules/comments/comments.service';
 
 @Controller('comments')
@@ -19,7 +19,7 @@ export class CommentsController {
   @Get('/')
   async getComments(
     @Query() @DecrementId(['id']) query: { id: number },
-  ): Promise<Comment[]> {
+  ): Promise<CommentDTO[]> {
     return this.commentsService.getComments(query.id);
   }
 
@@ -31,15 +31,15 @@ export class CommentsController {
       newsId: number;
       commentId: number;
     },
-  ): Promise<Comment | undefined> {
+  ): Promise<CommentDTO | undefined> {
     return this.commentsService.getComment(query.newsId, query.commentId);
   }
 
   @Post('create')
   async createComment(
     @Query() @DecrementId(['id']) query: { id: number },
-    @Body() data: Comment,
-  ): Promise<Comment> {
+    @Body() data: CommentDTO,
+  ): Promise<CommentDTO> {
     return this.commentsService.createComment(query.id, data);
   }
 
@@ -51,7 +51,7 @@ export class CommentsController {
       newsId: number;
       commentId: number;
     },
-  ): Promise<News> {
+  ): Promise<NewsDTO> {
     return this.commentsService.deleteComment(body.newsId, body.commentId);
   }
 }
