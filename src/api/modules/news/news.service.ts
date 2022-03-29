@@ -49,11 +49,9 @@ export class NewsService {
   }
 
   async updateNews(data: News): Promise<string> {
-    // const existingPost = news[data.id - 1];
     const n = news.findIndex((el) => el.id === data.id);
 
     if (n >= 0) {
-      // if (existingPost) {
       news[n] = {
         ...news[n],
         ...data,
