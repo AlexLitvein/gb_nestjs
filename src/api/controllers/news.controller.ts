@@ -9,21 +9,20 @@ import {
   Query,
   UseInterceptors,
   UploadedFiles,
-  UploadedFile,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { newsTemplate } from '../../views/news';
 import { DecrementId } from '../../utils/decrement-id.decorator';
-import { News } from '../dto/news.dto';
+import { NewsDTO } from '../dto/news.dto';
 import { NewsService } from '../modules/news/news.service';
 import { newsDetail } from '../../views/news-detail';
 import { drawDocument } from '../../views/dcument';
 import { NewsIdDto } from '../dto/news-id.dto';
-import { FileInterceptor, MulterModule } from '@nestjs/platform-express';
+import { FilesInterceptor, MulterModule } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { HelperFileLoader } from '../../utils/HelperFileLoader';
 
-const PATH_NEWS = '/news-static/';
+const PATH_NEWS = 'news-static/';
 const helperFileLoader = new HelperFileLoader();
 helperFileLoader.path = PATH_NEWS;
 
@@ -38,18 +37,29 @@ export class NewsController {
     });
   }
 
-  @Post('upload')
-  @UseInterceptors(FileInterceptor('file'))
-  uploadFile(@UploadedFile() file: Express.Multer.File) {
-    console.log(file);
-  }
-
-  @Put('create')
-  async createNews(@Body() data: News, @Res() res: Response): Promise<void> {
+  @Post('create')
+  @UseInterceptors(
+    FilesInterceptor('cover', 1, {
+      storage: diskStorage({
+        destination: helperFileLoader.destinationPath,
+        filename: helperFileLoader.customFileName,
+      }),
+    }),
+  )
+  async createNews(
+    @Body() data: NewsDTO,
+    @UploadedFiles() cover: Express.Multer.File[],
+    @Res() res: Response,
+  ): Promise<void> {
     let msg = '';
     let status = 200;
     try {
-      await this.newsService.createNews(data);
+      let coverPath = '';
+      if (cover[0]?.filename?.length > 0) {
+        coverPath = PATH_NEWS + cover[0].filename;
+      }
+
+      await this.newsService.createNews({ ...data, cover: coverPath });
       msg = 'Successfully created';
     } catch (e) {
       msg = (<any>e).detail;
@@ -59,7 +69,7 @@ export class NewsController {
   }
 
   @Post('update')
-  async updateNews(@Body() data: News, @Res() res: Response): Promise<void> {
+  async updateNews(@Body() data: NewsDTO, @Res() res: Response): Promise<void> {
     let msg = '';
     let status = 200;
     try {
@@ -86,7 +96,7 @@ export class NewsController {
   }
 
   @Delete('delete')
-  async deleteNewsOne(@Body() body: NewsIdDto): Promise<News[]> {
+  async deleteNewsOne(@Body() body: NewsIdDto): Promise<NewsDTO[]> {
     return this.newsService.deleteNews(body.id);
   }
 }
