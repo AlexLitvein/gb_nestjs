@@ -5,16 +5,18 @@ import { CommentsModule } from './modules/comments/comments.module';
 import { NewsModule } from './modules/news/news.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { MailModule } from '../mail/mail.module';
+import { MailController } from '../mail/mail.controller';
 
 @Module({
   imports: [
     NewsModule,
     CommentsModule,
+    MailModule,
     ServeStaticModule.forRoot({
-      // rootPath: join(__dirname, '../..', 'public'),
-      rootPath: './public',
+      rootPath: join(__dirname, '../..', 'public'),
     }),
   ],
-  controllers: [NewsController, CommentsController],
+  controllers: [NewsController, CommentsController, MailController],
 })
 export class AppModule {}
