@@ -8,19 +8,20 @@ import {
   Put,
   Query,
   UseInterceptors,
-  UploadedFiles,
+  UploadedFile,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { newsTemplate } from '../../views/news';
+import { newsTemplate } from '../../views_data/news';
 import { DecrementId } from '../../utils/decrement-id.decorator';
 import { NewsDTO } from '../dto/news.dto';
 import { NewsService } from '../modules/news/news.service';
-import { newsDetail } from '../../views/news-detail';
-import { drawDocument } from '../../views/dcument';
+import { newsDetail } from '../../views_data/news-detail';
+import { drawDocument } from '../../views_data/dcument';
 import { NewsIdDto } from '../dto/news-id.dto';
-import { FilesInterceptor, MulterModule } from '@nestjs/platform-express';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { HelperFileLoader } from '../../utils/HelperFileLoader';
+import { LoggingInterceptor } from '../modules/logger/logger.interceptor';
 
 const PATH_NEWS = 'news-static/';
 const helperFileLoader = new HelperFileLoader();
@@ -28,18 +29,12 @@ helperFileLoader.path = PATH_NEWS;
 
 @Controller('news')
 export class NewsController {
-  constructor(private readonly newsService: NewsService) {
-    MulterModule.register({
-      storage: diskStorage({
-        destination: helperFileLoader.destinationPath,
-        filename: helperFileLoader.customFileName,
-      }),
-    });
-  }
+  constructor(private readonly newsService: NewsService) {}
 
   @Post('create')
   @UseInterceptors(
-    FilesInterceptor('cover', 1, {
+    LoggingInterceptor,
+    FileInterceptor('cover', {
       storage: diskStorage({
         destination: helperFileLoader.destinationPath,
         filename: helperFileLoader.customFileName,
@@ -48,15 +43,15 @@ export class NewsController {
   )
   async createNews(
     @Body() data: NewsDTO,
-    @UploadedFiles() cover: Express.Multer.File[],
+    @UploadedFile() cover: Express.Multer.File,
     @Res() res: Response,
   ): Promise<void> {
     let msg = '';
     let status = 200;
     try {
       let coverPath = '';
-      if (cover[0]?.filename?.length > 0) {
-        coverPath = PATH_NEWS + cover[0].filename;
+      if (cover?.filename?.length > 0) {
+        coverPath = PATH_NEWS + cover.filename;
       }
 
       await this.newsService.createNews({ ...data, cover: coverPath });

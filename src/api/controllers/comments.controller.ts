@@ -6,6 +6,7 @@ import {
   Post,
   Put,
   Query,
+  Render,
 } from '@nestjs/common';
 import { DecrementId } from '../../utils/decrement-id.decorator';
 import { CommentDTO } from '../dto/comment.dto';
@@ -15,6 +16,12 @@ import { CommentsService } from '../modules/comments/comments.service';
 @Controller('comments')
 export class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
+
+  @Get('template')
+  @Render('index')
+  getTemplate(): { message: string } {
+    return { message: 'Hello world!' };
+  }
 
   @Get('/')
   async getComments(
