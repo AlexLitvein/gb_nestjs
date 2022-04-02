@@ -7,22 +7,11 @@ import {
   IsPositive,
   IsInt,
 } from 'class-validator';
-import { CommentDTO } from './comment.dto';
 
 export class NewsDTO {
-  // @IsInt()
-  // @IsPositive()
-  id!: number;
-
   @IsNotEmpty()
   @IsString()
-  name!: string;
-
-  @IsNotEmpty()
-  @IsDateString()
-  createdAt!: Date;
-
-  updatedAt!: Date;
+  title!: string;
 
   @ValidateIf((o) => o.description)
   @IsString()
@@ -31,11 +20,4 @@ export class NewsDTO {
   @ValidateIf((o) => o.cover)
   @IsString()
   cover!: string;
-
-  @IsString()
-  text!: string;
-
-  @ValidateIf((o) => o.comments)
-  @IsArray()
-  comments!: CommentDTO[];
 }
