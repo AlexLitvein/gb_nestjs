@@ -9,12 +9,8 @@ import {
 export class CommentDTO {
   @IsInt()
   @IsPositive()
-  id!: number;
+  newsId!: number;
 
   @IsString()
   text!: string;
-
-  @IsOptional()
-  @IsDate()
-  createdAt!: Date;
 }
