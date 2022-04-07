@@ -8,6 +8,7 @@ import {
   ManyToOne,
 } from 'typeorm';
 import { CommentEntity } from './comment.entity';
+import { UsersEntity } from './user.entity';
 
 @Entity('news')
 export class NewsEntity {
@@ -28,6 +29,9 @@ export class NewsEntity {
 
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt!: Date;
+
+  // @ManyToOne(() => UsersEntity, (user) => user.news)
+  // user!: UsersEntity;
 
   @OneToMany(() => CommentEntity, (comments) => comments.news)
   comments!: CommentEntity[];
