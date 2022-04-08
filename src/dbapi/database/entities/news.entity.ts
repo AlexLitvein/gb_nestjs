@@ -30,9 +30,6 @@ export class NewsEntity {
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt!: Date;
 
-  // @ManyToOne(() => UsersEntity, (user) => user.news)
-  // user!: UsersEntity;
-
   @OneToMany(() => CommentEntity, (comments) => comments.news)
   comments!: CommentEntity[];
 }

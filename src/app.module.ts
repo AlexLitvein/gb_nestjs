@@ -12,14 +12,12 @@ import { AuthModule } from './dbapi/auth/auth.module';
 import { SessionsModule } from './dbapi/modules/sessions/sessions.module';
 import { RolesModule } from './dbapi/roles/roles.module';
 import { Role } from './dbapi/database/entities/role.entity';
-import { UsersRoles } from './dbapi/database/entities/users-roles.entity';
 import { UsersEntity } from './dbapi/database/entities/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [
-    // TODO
-    TypeOrmModule.forFeature([UsersEntity, UsersRoles, Role]), //
+    TypeOrmModule.forFeature([UsersEntity, Role]),
     DatabaseModule,
     NewsModule,
     CommentsModule,

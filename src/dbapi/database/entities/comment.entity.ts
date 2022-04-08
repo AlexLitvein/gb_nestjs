@@ -25,12 +25,6 @@ export class CommentEntity {
   @JoinColumn()
   news!: NewsEntity;
 
-  // @Column()
-  // newsId!: number;
-
-  // @ManyToOne(() => UsersEntity, (user) => user.comments)
-  // user!: UsersEntity;
-
   @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
   createdAt!: Date;
 
