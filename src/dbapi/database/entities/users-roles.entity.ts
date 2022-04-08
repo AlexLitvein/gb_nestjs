@@ -8,7 +8,8 @@ import {
 import { Role } from './role.entity';
 import { UsersEntity } from './user.entity';
 
-@Entity('user_roles_role')
+// @Entity('user_roles_role')
+@Entity('users_roles')
 export class UsersRoles {
   @PrimaryGeneratedColumn()
   id!: number;
@@ -20,10 +21,10 @@ export class UsersRoles {
   roleId!: number;
 
   @ManyToOne(() => UsersEntity)
-  @JoinColumn()
+  @JoinColumn() // ! { name: 'userId' }
   user!: UsersEntity;
 
   @ManyToOne(() => Role)
-  @JoinColumn()
+  @JoinColumn() // ! { name: 'roleId' }
   role!: Role;
 }
