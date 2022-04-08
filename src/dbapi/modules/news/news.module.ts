@@ -3,9 +3,16 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { NewsEntity } from '../../../dbapi/database/entities/news.entity';
 import { NewsController } from '../../controllers/news.controller';
 import { NewsService } from './news.service';
+import { SessionsModule } from '../sessions/sessions.module';
+import { UsersEntity } from '../../database/entities/user.entity';
+import { UsersRoles } from '../../database/entities/users-roles.entity';
+import { Role } from '../../database/entities/role.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([NewsEntity])],
+  imports: [
+    TypeOrmModule.forFeature([NewsEntity, UsersEntity, UsersRoles, Role]),
+    SessionsModule,
+  ],
   controllers: [NewsController],
   providers: [NewsService],
   exports: [NewsService],

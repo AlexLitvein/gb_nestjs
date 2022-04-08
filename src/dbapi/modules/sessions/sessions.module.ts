@@ -4,9 +4,7 @@ import { Session } from '../../database/entities/session.entity';
 import { SessionsService } from './sessions.service';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Session]),
-  ],
+  imports: [TypeOrmModule.forFeature([Session])],
   providers: [SessionsService],
   exports: [SessionsService],
 })

@@ -5,13 +5,16 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class SessionsService {
-	constructor(@InjectRepository(Session) private readonly sessionsRepository: Repository<Session>) {}
+  constructor(
+    @InjectRepository(Session)
+    private readonly sessionsRepository: Repository<Session>,
+  ) {}
 
-	getByToken(token: string) {
-		return this.sessionsRepository.findOne({token: token});
-	}
+  getByToken(token: string) {
+    return this.sessionsRepository.findOne({ token: token });
+  }
 
-	createItem(item: Session) {
-		return this.sessionsRepository.save(item);
-	}
+  createItem(item: Session) {
+    return this.sessionsRepository.save(item);
+  }
 }
