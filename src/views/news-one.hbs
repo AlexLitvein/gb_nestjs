@@ -12,23 +12,32 @@
         </div>
     </div>
 
-    {{#if news.comments.length}}
-        {{#each news.comments}}
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-body">
-                    <h6 class="card-subtitle mb-2 text-muted">Дата создания:
-                        {{this.createdAt}}</h6>
-                    <p class="card-text">{{this.text}}</p>
-                </div>
+    {{!-- {{#if news.comments.length}}
+    {{#each news.comments}}
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2 text-muted">Дата создания:
+                    {{this.createdAt}}</h6>
+                <p class="card-text">{{this.text}}</p>
             </div>
         </div>
-        {{/each}}
+    </div>
+    {{/each}}
     {{else}}
     <h1>Комментариев нет.</h1>
-    {{/if}}
+    {{/if}} --}}
 
+    <div id="app">
+
+
+    <form action="http://localhost:3000/comments/create">
+        <input name="newsId" type="text" value={{news.id}} />
+        <input name="text" type="text" />
+        <button type="submit">Отправить</button>
+    </form>
 </div>
 {{else}}
 <h1>Плохая новость!</h1>
 {{/if}}
+<script src="/js/comments.js" type="text/babel"></script>
