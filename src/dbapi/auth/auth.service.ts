@@ -27,9 +27,11 @@ export class AuthService {
   ) {}
 
   async login({ login, password }: AuthUserDto) {
+    const result = ['Неправильный логин или пароль.', null];
     const user = await this.usersRepository.findOne({ login: login });
     if (!user) {
-      throw new HttpException('User does not exist', HttpStatus.NOT_FOUND);
+      // throw new HttpException('User does not exist', HttpStatus.NOT_FOUND);
+      return result;
     }
     const { password: userPassword, id: userId } = user;
     const isCorrectPassword = await this.comparePasswords(
@@ -37,17 +39,19 @@ export class AuthService {
       password,
     );
     if (!isCorrectPassword) {
-      throw new HttpException(
-        'The password is invalid',
-        HttpStatus.UNAUTHORIZED,
-      );
+      // throw new HttpException(
+      //   'The password is invalid',
+      //   HttpStatus.UNAUTHORIZED,
+      // );
+      return result;
     }
     const accessToken = await this.generateUniqToken();
     const session = new Session();
     session.token = `Bearer ${accessToken}`;
     session.userId = userId;
     await this.sessionsRepository.save(session);
-    return { accessToken };
+    // return { accessToken };
+    return [`Вы успешно авторизировались`, session.token];
   }
 
   async register(params: RegisterUserDto) {

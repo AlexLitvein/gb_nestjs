@@ -15,7 +15,10 @@ export class CommentsService {
   }
 
   async findById(newsId: number): Promise<CommentEntity[] | undefined> {
-    return await this.commentsRepository.find({ where: { id: newsId } });
+    return await this.commentsRepository.find({
+      where: { id: newsId },
+      relations: ['user'],
+    });
   }
 
   async create(comment: CommentEntity) {

@@ -13,6 +13,8 @@ import { WsJwtGuard } from '../dbapi/auth/ws-jwt.guard';
 import { CommentsService } from '../dbapi/modules/comments/comments.service';
 import { CommentEntity } from '../dbapi/database/entities/comment.entity';
 import { CommentDTO } from '../dbapi/dto/comment.dto';
+import { NewsService } from '../dbapi/modules/news/news.service';
+import { NewsEntity } from '../dbapi/database/entities/news.entity';
 // import { OnEvent } from '@nestjs/event-emitter';
 
 export type Comment = { message: string; idNews: number };
@@ -21,7 +23,9 @@ export type Comment = { message: string; idNews: number };
 export class SocketCommentsGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
-  constructor(private readonly commentsService: CommentsService) {}
+  constructor(
+    private readonly commentsService: CommentsService, // private readonly newsService: NewsService,
+  ) {}
 
   @WebSocketServer()
   server!: Server;
@@ -34,10 +38,15 @@ export class SocketCommentsGateway
     // Извлекаем объект пользователя, который установлен в ws-jwt.guard.ts
     // const userId: number = client.data.user.id;
     // Создаём комментарий
-    const entity = { ...new CommentEntity(), ...comment };
+    const entity = new CommentEntity();
+    // const news = this.newsService.findById(comment.newsId);
+    // entity.news = <any>news;
+    entity.text = comment.text;
+
     const _comment = await this.commentsService.create(entity);
     // Оповещаем пользователей комнаты о новом комментарии
-    this.server.to(_comment.news.toString()).emit('newComment', _comment);
+    // this.server.to(_comment.news.toString()).emit('newComment', _comment);
+    this.server.to(comment.newsId.toString()).emit('newComment', _comment);
   }
 
   afterInit(server: Server): void {

@@ -26,9 +26,9 @@ export class CommentsController {
 
   @Get('all')
   async getComments(
-    @Query() query: { newsId: number },
+    @Query() query: { newsId: string },
   ): Promise<CommentEntity[] | undefined> {
-    return this.commentsService.findById(query.newsId);
+    return this.commentsService.findById(Number(query.newsId));
   }
 
   // @Get('get-one')
