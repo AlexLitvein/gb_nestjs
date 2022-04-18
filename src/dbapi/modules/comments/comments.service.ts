@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CommentEntity } from '../../../dbapi/database/entities/comment.entity';
+import { NewsService } from '../news/news.service';
 
 @Injectable()
 export class CommentsService {
@@ -16,7 +17,7 @@ export class CommentsService {
 
   async findById(newsId: number): Promise<CommentEntity[] | undefined> {
     return await this.commentsRepository.find({
-      where: { id: newsId },
+      where: { news: newsId },
       relations: ['user'],
     });
   }

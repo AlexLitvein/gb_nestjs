@@ -5,13 +5,13 @@ import { CommentsController } from '../../../dbapi/controllers/comments.controll
 import { CommentsService } from './comments.service';
 import { SocketCommentsGateway } from '../../../ws/socket-comments.gateway';
 import { SessionsModule } from '../sessions/sessions.module';
-import { NewsService } from '../news/news.service';
+import { NewsModule } from '../news/news.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([CommentEntity]),
     SessionsModule,
-    // NewsService,
+    NewsModule,
   ],
   controllers: [CommentsController],
   providers: [CommentsService, SocketCommentsGateway],

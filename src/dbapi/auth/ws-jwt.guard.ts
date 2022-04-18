@@ -26,6 +26,9 @@ export class WsJwtGuard implements CanActivate {
       const session =
         authToken && (await this.sessionsService.getByToken(authToken));
       if (session) {
+        const comment = context.getArgByIndex(1);
+        comment.user = session.user;
+
         context.switchToWs().getClient().data.user = session.userId;
         return true;
       }

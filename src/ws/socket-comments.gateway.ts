@@ -6,8 +6,7 @@ import {
   OnGatewayConnection,
   OnGatewayDisconnect,
 } from '@nestjs/websockets';
-import * as cookie from 'cookie';
-import { Logger, UseGuards } from '@nestjs/common';
+import { Inject, Logger, UseGuards } from '@nestjs/common';
 import { Socket, Server } from 'socket.io';
 import { WsJwtGuard } from '../dbapi/auth/ws-jwt.guard';
 import { CommentsService } from '../dbapi/modules/comments/comments.service';
@@ -24,7 +23,8 @@ export class SocketCommentsGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
   constructor(
-    private readonly commentsService: CommentsService, // private readonly newsService: NewsService,
+    private readonly commentsService: CommentsService,
+    private readonly newsService: NewsService,
   ) {}
 
   @WebSocketServer()
@@ -34,18 +34,14 @@ export class SocketCommentsGateway
   @UseGuards(WsJwtGuard)
   @SubscribeMessage('addComment')
   async handleMessage(client: Socket, comment: CommentDTO): Promise<void> {
-    // const { idNews, message } = comment;
-    // Извлекаем объект пользователя, который установлен в ws-jwt.guard.ts
-    // const userId: number = client.data.user.id;
-    // Создаём комментарий
     const entity = new CommentEntity();
-    // const news = this.newsService.findById(comment.newsId);
-    // entity.news = <any>news;
+
+    const news = await this.newsService.findById(comment.newsId);
+    entity.news = <any>news;
     entity.text = comment.text;
+    entity.user = comment.user;
 
     const _comment = await this.commentsService.create(entity);
-    // Оповещаем пользователей комнаты о новом комментарии
-    // this.server.to(_comment.news.toString()).emit('newComment', _comment);
     this.server.to(comment.newsId.toString()).emit('newComment', _comment);
   }
 
@@ -59,7 +55,6 @@ export class SocketCommentsGateway
 
   async handleConnection(client: Socket, ...args: any[]): Promise<void> {
     const { newsId } = client.handshake.query;
-    // После подключения пользователя к веб-сокету, подключаем его в комнату
     client.join(newsId || '');
     this.logger.log(`Client connected: ${client.id}`);
   }
