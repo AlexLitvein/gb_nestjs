@@ -6,15 +6,13 @@ import {
   OnGatewayConnection,
   OnGatewayDisconnect,
 } from '@nestjs/websockets';
-import { Inject, Logger, UseGuards } from '@nestjs/common';
+import { Logger, UseGuards } from '@nestjs/common';
 import { Socket, Server } from 'socket.io';
 import { WsJwtGuard } from '../dbapi/auth/ws-jwt.guard';
 import { CommentsService } from '../dbapi/modules/comments/comments.service';
 import { CommentEntity } from '../dbapi/database/entities/comment.entity';
 import { CommentDTO } from '../dbapi/dto/comment.dto';
 import { NewsService } from '../dbapi/modules/news/news.service';
-import { NewsEntity } from '../dbapi/database/entities/news.entity';
-// import { OnEvent } from '@nestjs/event-emitter';
 
 export type Comment = { message: string; idNews: number };
 
