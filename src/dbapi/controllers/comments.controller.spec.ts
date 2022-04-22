@@ -29,7 +29,7 @@ describe('CommentsController', () => {
     it('should return an array of CommentEntity', async () => {
       const result: CommentEntity[] = [];
       jest
-        .spyOn(commentsService, 'findById')
+        .spyOn(commentsService, 'findByNewsId')
         .mockImplementation(async () => await result);
       expect(await commentsController.getComments({ newsId: '1' })).toBe(
         result,
